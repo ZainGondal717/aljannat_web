@@ -14,7 +14,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 'https://aljannat-web.vercel.app/';
+const port = process.env.PORT ;
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
