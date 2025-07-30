@@ -1,0 +1,30 @@
+.admin-dashboard-container {
+  min-height: 100vh;
+  background-color: #f8f1f1;
+}
+
+.main-content {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #4b0082;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #4b0082;
+  text-align: center;
+}
