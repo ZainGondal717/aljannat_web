@@ -34,7 +34,9 @@ app.use('/api/categories', categoryRoutes); // Handles /api/categories, /api/cat
 app.use('/api/posters', posterRoutes); // Mount posters route
 app.use('/api/images', imageRoutes);
 connectDB();
-
+app.get('/', (req, res) => {
+  res.send('Welcome to the backend server!');
+});
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
