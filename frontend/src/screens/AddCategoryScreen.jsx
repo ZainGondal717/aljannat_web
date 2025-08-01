@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AdminHeader from '../components/AdminHeader';
@@ -122,11 +122,21 @@ export default function AddCategoryScreen() {
 
   return (
     <ErrorBoundary>
-      <div className="add-category-container">
+      <motion.div
+        className="add-category-container"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <AdminHeader />
         <div className="main-content">
           <Sidebar />
-          <div className="content">
+          <motion.div
+            className="content"
+            initial={{ x: 100 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
             <h2 className="title">Add Category</h2>
             {error && <span className="error-text">{error}</span>}
 
@@ -158,7 +168,13 @@ export default function AddCategoryScreen() {
               <h3 className="subtitle">Existing Categories</h3>
               {Array.isArray(categories) && categories.length > 0 ? (
                 categories.map((cat) => (
-                  <div key={cat._id} className="existing-item">
+                  <motion.div
+                    key={cat._id}
+                    className="existing-item"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <div className="item-details">
                       <div className="item-row">
                         {cat.imageUrl && <img src={cat.imageUrl} alt={cat.name} className="item-image" />}
@@ -173,15 +189,15 @@ export default function AddCategoryScreen() {
                         <i className="fas fa-trash" style={{ color: '#FF4D4D' }}></i>
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <span className="no-items-text">No categories available</span>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </ErrorBoundary>
   );
 }

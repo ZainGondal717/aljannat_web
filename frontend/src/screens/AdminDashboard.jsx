@@ -1,25 +1,40 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import AdminHeader from '../components/AdminHeader';
 import Sidebar from '../components/Sidebar';
-import '../styles/AdminDashboard.css';
+import {
+  DashboardContainer,
+  DashboardBody,
+  MainContent,
+  DashboardTitle,
+} from '../styles/AdminDashboard';
 
 export default function AdminDashboard() {
+  const greetingAnim = useAnimation();
+
+  useEffect(() => {
+    greetingAnim.start({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: 'easeOut' },
+    });
+  }, [greetingAnim]);
+
   return (
-    <div className="admin-dashboard-container">
+    <DashboardContainer>
       <AdminHeader />
-      <div className="main-content">
+      <DashboardBody>
         <Sidebar />
-        <motion.div
-          className="content"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: 'easeOut' }}
-        >
-          <h2 className="title">Admin Dashboard</h2>
-          <h3 className="subtitle">Welcome, Admin!</h3>
-        </motion.div>
-      </div>
-    </div>
+        <MainContent>
+          <DashboardTitle
+            as={motion.h1}
+            initial={{ opacity: 0, y: 20 }}
+            animate={greetingAnim}
+          >
+            Welcome to Al Jannat Admin Dashboard
+          </DashboardTitle>
+        </MainContent>
+      </DashboardBody>
+    </DashboardContainer>
   );
 }

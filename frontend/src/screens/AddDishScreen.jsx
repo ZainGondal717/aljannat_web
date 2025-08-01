@@ -141,6 +141,7 @@ export default function AddDishScreen() {
     setImage(null);
     setEditingDish(null);
     setError('');
+    setModalVisible(false);
   };
 
   const handleEdit = (dish) => {
@@ -171,12 +172,22 @@ export default function AddDishScreen() {
 
   return (
     <ErrorBoundary>
-      <div className="add-dish-container">
+      <motion.div
+        className="add-dish-container"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <AdminHeader />
         <div className="main-content">
           <Sidebar />
-          <div className="content">
-            <h2 className="title">Add/Edit Dish</h2>
+          <motion.div
+            className="content"
+            initial={{ x: 100 }}
+            animate={{ x: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            <h2 className="title">{editingDish ? 'Edit Dish' : 'Add Dish'}</h2>
             {error && <span className="error-text">{error}</span>}
 
             <div className="form-container">
@@ -216,17 +227,25 @@ export default function AddDishScreen() {
                 </div>
               </div>
               {modalVisible && (
-                <div className="modal-container">
+                <motion.div
+                  className="modal-container"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
                   <div className="modal-content">
                     <div className="modal-scroll">
                       {categories.map((cat) => (
-                        <div
+                        <motion.div
                           key={cat._id}
                           className="modal-item"
                           onClick={() => {
                             setCategory(cat._id);
                             setModalVisible(false);
                           }}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3 }}
                         >
                           <div className="modal-item-content">
                             {cat.imageUrl && (
@@ -234,7 +253,7 @@ export default function AddDishScreen() {
                             )}
                             <span className="modal-item-text">{cat.name}</span>
                           </div>
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                     <button
@@ -244,7 +263,7 @@ export default function AddDishScreen() {
                       Close
                     </button>
                   </div>
-                </div>
+                </motion.div>
               )}
               <label htmlFor="image-upload" className="upload-button">
                 {image ? 'Change Image' : 'Upload Image'}
@@ -269,7 +288,13 @@ export default function AddDishScreen() {
               <h3 className="subtitle">Existing Dishes</h3>
               {Array.isArray(dishes) && dishes.length > 0 ? (
                 dishes.map((dish) => (
-                  <div key={dish._id} className="existing-item">
+                  <motion.div
+                    key={dish._id}
+                    className="existing-item"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     <div className="item-details">
                       <span className="item-title">{dish.name}</span>
                       <span className="item-price">${dish.price}</span>
@@ -282,24 +307,24 @@ export default function AddDishScreen() {
                         onClick={() => handleEdit(dish)}
                         className="edit-button"
                       >
-                        <i className="fas fa-pencil" style={{ color: '#63B3ED' }}></i>
+                        <i className="fas fa-pencil" style={{ color: '#ffd700' }}></i>
                       </button>
                       <button
                         onClick={() => handleDelete(dish._id)}
                         className="delete-button"
                       >
-                        <i className="fas fa-trash" style={{ color: '#FF4D4D' }}></i>
+                        <i className="fas fa-trash" style={{ color: '#ff4d4d' }}></i>
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))
               ) : (
                 <span className="no-items-text">No dishes available</span>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </ErrorBoundary>
   );
 }

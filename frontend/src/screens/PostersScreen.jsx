@@ -6,29 +6,6 @@ import Sidebar from '../components/Sidebar';
 import { addPoster, getPosters, updatePoster, deletePoster } from '../services/api';
 import '../styles/PostersScreen.css';
 
-class ErrorBoundary extends React.Component {
-  state = { hasError: false, error: null };
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error('ErrorBoundary caught error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="error-container">
-          <span className="error-text">Something went wrong: {this.state.error?.message || 'Unknown error'}</span>
-        </div>
-      );
-    }
-    return this.props.children;
-  }
-}
-
 export default function PostersScreen() {
   const navigate = useNavigate();
   const [posterLink, setPosterLink] = useState('');
@@ -43,7 +20,6 @@ export default function PostersScreen() {
   const fetchPosters = async () => {
     try {
       const response = await getPosters();
-      console.log('fetchPosters response:', response);
       if (response.success && Array.isArray(response.data)) {
         setPosters(response.data);
       } else {
@@ -70,7 +46,6 @@ export default function PostersScreen() {
       } else {
         response = await addPoster({ link: posterLink });
       }
-      console.log('API response:', response);
       if (response.success) {
         alert(editingPoster ? 'Poster updated' : 'Poster added');
         setPosterLink('');
@@ -107,78 +82,44 @@ export default function PostersScreen() {
   };
 
   return (
-    <ErrorBoundary>
-      <motion.div
-        className="posters-container"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <AdminHeader />
-        <div className="main-content">
-          <Sidebar />
-          <div className="content">
-            <h2 className="title">Manage Posters</h2>
-            {error && <span className="error-text">{error}</span>}
+    <motion.div
+      className="posters-container"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <AdminHeader />
+      <div className="main-layout">
+        <Sidebar />
+        <div className="poster-content">
+          <h2>Manage Posters</h2>
+          {error && <p className="error">{error}</p>}
 
-            <div className="form-container">
-              <input
-                type="text"
-                placeholder="Poster Image URL (e.g., https://example.com/poster.jpg)"
-                value={posterLink}
-                onChange={(e) => setPosterLink(e.target.value)}
-                className="input"
-              />
-              <button
-                onClick={handleSubmit}
-                className="submit-button"
-              >
-                {editingPoster ? 'Update Poster' : 'Add Poster'}
-              </button>
-            </div>
+          <div className="poster-form">
+            <input
+              type="text"
+              placeholder="Enter Poster Image URL"
+              value={posterLink}
+              onChange={(e) => setPosterLink(e.target.value)}
+            />
+            <button onClick={handleSubmit}>
+              {editingPoster ? 'Update Poster' : 'Add Poster'}
+            </button>
+          </div>
 
-            <div className="existing-items">
-              <h3 className="subtitle">Existing Posters</h3>
-              {posters.length > 0 ? (
-                posters.map((poster) => (
-                  <div key={poster._id} className="existing-item">
-                    <img src={poster.link} alt="Poster" className="poster-image" />
-                    <div className="item-details">
-                      <span className="item-title">{poster.link}</span>
-                    </div>
-                    <div className="item-actions">
-                      <button
-                        onClick={() => handleEdit(poster)}
-                        className="edit-button"
-                      >
-                        <i className="fas fa-pencil" style={{ color: '#63B3ED' }}></i>
-                      </button>
-                      <button
-                        onClick={() => handleDelete(poster._id)}
-                        className="delete-button"
-                      >
-                        <i className="fas fa-trash" style={{ color: '#FF4D4D' }}></i>
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditingPoster(null);
-                          setPosterLink('');
-                          setError('');
-                        }}
-                        className="add-button"
-                      >
-                        <i className="fas fa-plus" style={{ color: '#63B3ED' }}></i>
-                      </button>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <span className="no-items-text">No posters available</span>
-              )}
-            </div>
+          <div className="poster-list">
+            {posters.map((poster) => (
+              <div key={poster._id} className="poster-card">
+                <img src={poster.link} alt="Poster" />
+                <div className="card-buttons">
+                  <button onClick={() => handleEdit(poster)}>Edit</button>
+                  <button onClick={() => handleDelete(poster._id)}>Delete</button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </motion.div>
-    </ErrorBoundary>
+      </div>
+    </motion.div>
   );
 }

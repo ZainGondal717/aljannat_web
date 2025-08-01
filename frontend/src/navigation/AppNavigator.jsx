@@ -23,7 +23,7 @@ export default function AppNavigator() {
           <Route path="/pricing" element={<PricingScreen />} />
           <Route path="/member-login" element={<MemberLogin />} />
        
-// In Routes
+
 <Route path="/menu" element={<MenuScreen />} />
           <Route path="/category-images/:category" element={<CategoryImagesScreen />} />
           <Route path="/admin" element={<AdminNavigator />} />

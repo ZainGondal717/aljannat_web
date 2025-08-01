@@ -64,35 +64,17 @@ export default function LocateUsScreen() {
         <div className="contact-info">
           <div className="contact-item">
             <i className="fas fa-map-marker-alt contact-icon" />
-            <span>Al-Jannat Marriage Hall, Sargodha Mandi Bahauddin Rd, Bhikhi Sharif</span>
+            <span>Al-Jannat Marriage Hall, Ainowal, Sargodha Mandi Bahauddin Rd, Bhikhi Sharif</span>
           </div>
           <div className="contact-item">
             <i className="fas fa-phone contact-icon" />
-            <span>+92 123 456 7890</span>
+            <span>+92 342 645 0000</span>
           </div>
           <div className="contact-item">
             <i className="fas fa-envelope contact-icon" />
-            <span>info@aljannat.com</span>
+            <span>aljannatmarraigehall@gmail.com</span>
           </div>
-          <div className="contact-item">
-            <i className="fab fa-whatsapp contact-icon" />
-            <motion.a
-              className="whatsapp-button"
-              href="https://wa.me/923143436990?text=Hello%2C%20I%27m%20interested%20in%20booking%20Al-Jannat%20Marriage%20Hall"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={(e) => {
-                if (!window.WhatsApp) {
-                  e.preventDefault();
-                  alert('Please install WhatsApp or use a registered number to contact.');
-                }
-              }}
-            >
-              Contact via WhatsApp
-            </motion.a>
-          </div>
+          
         </div>
       </motion.div>
     </motion.div>

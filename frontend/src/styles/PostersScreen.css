@@ -1,127 +1,142 @@
+/* Container styles */
 .posters-container {
-  min-height: 100vh;
-  background-color: #f8f1f1;
-}
-
-.main-content {
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f5f7fa;
 }
 
-.content {
+/* Layout with sidebar */
+.main-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+/* Main poster content */
+.poster-content {
   flex: 1;
-  padding: 20px;
+  padding: 2rem;
+  background: #fff;
   overflow-y: auto;
-  max-height: 100vh;
 }
 
-.title {
-  font-size: 32px;
-  font-weight: bold;
-  color: #4b0082;
-  margin-bottom: 20px;
-  text-align: center;
+.poster-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
-.error-text {
-  color: #FF4D4D;
-  font-size: 16px;
-  margin-bottom: 15px;
-  text-align: center;
+/* Error message */
+.error {
+  color: #d9534f;
+  margin-bottom: 1rem;
 }
 
-.form-container {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
-
-.input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.submit-button {
-  background-color: #63B3ED;
-  color: #fff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.submit-button:hover {
-  background-color: #4b9cd3;
-}
-
-.existing-items {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.subtitle {
-  font-size: 24px;
-  font-weight: 600;
-  color: #4b0082;
-  margin-bottom: 15px;
-}
-
-.existing-item {
+/* Poster form */
+.poster-form {
   display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-.poster-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-right: 10px;
-}
-
-.item-details {
+.poster-form input {
   flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
 }
 
-.item-title {
-  font-size: 14px;
-  color: #1B263B;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.item-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.edit-button, .delete-button, .add-button {
-  background: none;
+.poster-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
-.error-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f8f1f1;
+.poster-form button:hover {
+  background-color: #0056b3;
 }
 
-.error-text {
-  color: #FF4D4D;
-  font-size: 18px;
+/* Poster cards */
+.poster-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.poster-card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
   text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.poster-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Card buttons */
+.card-buttons {
+  display: flex;
+  justify-content: space-around;
+  gap: 0.5rem;
+}
+
+.card-buttons button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.card-buttons button:first-child {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.card-buttons button:last-child {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.card-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* Responsive for small screens */
+@media (max-width: 768px) {
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .poster-content {
+    padding: 1rem;
+  }
+
+  .poster-form {
+    flex-direction: column;
+  }
+
+  .poster-form input,
+  .poster-form button {
+    width: 100%;
+  }
+
+  .poster-list {
+    grid-template-columns: 1fr;
+  }
 }

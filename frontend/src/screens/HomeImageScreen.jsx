@@ -21,7 +21,6 @@ export default function HomeImageScreen() {
   const fetchImages = async () => {
     try {
       const response = await getImages();
-      console.log('fetchImages response:', response);
       if (response.success && Array.isArray(response.data)) {
         setImages(response.data);
       } else {
@@ -29,7 +28,6 @@ export default function HomeImageScreen() {
         setError('Failed to load images');
       }
     } catch (err) {
-      console.error('Fetch images error:', err);
       setImages([]);
       setError('Error fetching images');
     }
@@ -51,20 +49,13 @@ export default function HomeImageScreen() {
   };
 
   const handleAddImage = async () => {
-    if (!image) {
-      setError('Please select an image');
-      return;
-    }
-    if (!category) {
-      setError('Please select a category');
-      return;
-    }
+    if (!image) return setError('Please select an image');
+    if (!category) return setError('Please select a category');
+
     try {
       const formData = new FormData();
       formData.append('image', image.file);
       formData.append('category', category);
-
-      console.log('FormData contents:', { uri: image.uri, type: image.mimeType, name: image.file.name, category });
 
       const response = await addImage(formData);
       if (response.success) {
@@ -78,7 +69,6 @@ export default function HomeImageScreen() {
         alert(response.error || 'Failed to add image');
       }
     } catch (err) {
-      console.error('Add image error:', err);
       setError('Error adding image: ' + err.message);
       alert('Error adding image: ' + err.message);
     }
@@ -95,7 +85,6 @@ export default function HomeImageScreen() {
         alert(response.error || 'Failed to delete image');
       }
     } catch (err) {
-      console.error('Delete image error:', err);
       setError('Error deleting image');
       alert('Error deleting image');
     }
@@ -106,61 +95,110 @@ export default function HomeImageScreen() {
       className="home-image-container"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.8, ease: 'easeInOut' }}
     >
       <AdminHeader />
       <div className="main-content">
         <Sidebar />
         <div className="content">
-          <h2 className="title">Home Image Management</h2>
-          {error && <span className="error-text">{error}</span>}
-          <div className="form-container">
-            <label htmlFor="image-upload" className="pick-button">
-              Pick an Image
+          <motion.h2
+            className="title"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            📷 Manage Homepage Images
+          </motion.h2>
+
+          {error && (
+            <motion.div
+              className="error-box"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {error}
+            </motion.div>
+          )}
+
+          <motion.div
+            className="form-wrapper"
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            <label htmlFor="image-upload" className="upload-btn">
+              Upload Image
               <input
                 id="image-upload"
                 type="file"
                 accept="image/*"
                 onChange={pickImage}
-                style={{ display: 'none' }}
+                hidden
               />
             </label>
-            {image && <img src={image.uri} alt="Preview" className="image-preview" />}
+
+            {image && (
+              <motion.img
+                src={image.uri}
+                alt="Preview"
+                className="image-preview"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            )}
+
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="picker"
+              className="category-select"
             >
-              <option value="">Select a category</option>
+              <option value="">Select Category</option>
               {categories.map((cat, index) => (
                 <option key={index} value={cat}>{cat}</option>
               ))}
             </select>
-            <button onClick={handleAddImage} className="add-button">
+
+            <button onClick={handleAddImage} className="add-btn">
               Add Image
             </button>
-          </div>
-          <div className="image-list">
+          </motion.div>
+
+          <motion.div
+            className="image-list"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
             {images.length > 0 ? (
-              images.map((item) => (
-                <div key={item._id} className="image-item">
-                  <img src={item.link} alt="Thumbnail" className="image-thumbnail" />
-                  <div className="image-details">
-                    <span className="image-text">Category: {item.category}</span>
-                    <span className="image-text">URL: {item.link}</span>
-                    <button
-                      onClick={() => handleDeleteImage(item._id)}
-                      className="delete-button"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))
+              <div className="image-grid">
+                {images.map((item) => (
+                  <motion.div
+                    key={item._id}
+                    className="image-card"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <img src={item.link} alt="Gallery" className="thumb" />
+                    <div className="card-info">
+                      <span>📁 {item.category}</span>
+                      <span className="url-text">{item.link}</span>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDeleteImage(item._id)}
+                      >
+                        ❌ Delete
+                      </button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             ) : (
-              <span className="no-images-text">No images available</span>
+              <p className="no-images">No images found.</p>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </motion.div>
